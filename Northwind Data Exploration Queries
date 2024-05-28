@@ -30,53 +30,43 @@ Marketing Effectiveness: Which marketing channels drive the most sales, and how 
 Profitability Analysis: What are our most profitable products, customers, and sales channels, and how can we maximize profitability?
 
 ### Customer Segmentation
-
     SELECT 
     CASE 
-        WHEN Country = 'USA' THEN 'Domestic'
-        ELSE 'International'
+    WHEN Country = 'USA' THEN 'Domestic'
+    ELSE 'International'
     END AS CustomerSegment,
     COUNT(CustomerID) AS CustomerCount
-FROM 
-
+    FROM 
     Customers
-GROUP BY
-
+    GROUP BY
     CustomerSegment;
 
 
 ### Product Performance:
 
-     SELECT 
+    SELECT 
     ProductName, 
     SUM(Quantity) AS TotalQuantitySold,
     SUM(UnitPrice * Quantity) AS TotalRevenue
-FROM 
-
+    FROM 
     Products
-JOIN 
-    Order_Details ON Products.ProductID =          Order_Details.ProductID
-GROUP BY
-
-
+    JOIN 
+    Order_Details ON Products.ProductID =         Order_Details.ProductID
+    GROUP BY
     ProductName
-ORDER BY 
-
+    ORDER BY 
     TotalQuantitySold DESC
-
     LIMIT 10;
 
 ### Supplier Evaluation:
 
-     SELECT 
+    SELECT 
     SupplierID, 
     AVG(UnitPrice) AS AvgUnitPrice,
     AVG(UnitsOnOrder) AS AvgUnitsOnOrder
-FROM 
-
+    FROM 
     Products
-GROUP BY 
-
+    GROUP BY 
     SupplierID; 
 
     ## Employee Performance 
@@ -84,40 +74,31 @@ GROUP BY
     SELECT 
     EmployeeID,COUNT(OrderID) AS TotalOrders,
     SUM(UnitPrice * Quantity) AS TotalSales
-FROM 
+    FROM 
     Orders
-
-JOIN 
+    JOIN 
     Order_Details ON Orders.OrderID =           Order_Details.OrderID
-
-GROUP BY 
-
+    GROUP BY 
     EmployeeID
-ORDER BY 
+    ORDER BY 
     TotalSales DESC
-
     LIMIT 10;
 
     
 ### Employee Performance
+
     SELECT 
     EmployeeID, 
     COUNT(OrderID) AS TotalOrders,
     SUM(UnitPrice * Quantity) AS TotalSales
-FROM
-
+    FROM
     Orders
-JOIN 
-
-    Order_Details ON Orders.OrderID = Order_Details.OrderID
-
-GROUP BY 
-
+    JOIN 
+    Order_Details ON Orders.OrderID =           Order_Details.OrderID
+    GROUP BY 
     EmployeeID
-ORDER BY 
-
+    ORDER BY 
     TotalSales DESC
-    
     LIMIT 10;
 
 ### Inventory Management
@@ -126,125 +107,87 @@ ORDER BY
     ProductID, 
     AVG((UnitPrice * QuantityPerUnit)::numeric) AS AvgRevenue,
     AVG(UnitsInStock::numeric) AS AvgStock
-FROM 
+    FROM 
     Products
-
-GROUP BY
-
+    GROUP BY
     ProductID;
 
 ### Order Fulfillment:
     SELECT 
-
     ShipperID, 
     AVG(EXTRACT(EPOCH FROM (ShippedDate -       OrderDate)) / 86400) AS AvgShippingTime
 
-FROM 
-
+    FROM 
     Orders
-
-GROUP BY
-
+    GROUP BY
     ShipperID;
 
 ### Customer Retention
-WITH CustomerCountByYear AS 
-(
-    
-     SELECT 
-        EXTRACT(YEAR FROM OrderDate) AS OrderYear,
-        COUNT(DISTINCT CustomerID) 
-        AS UniqueCustomers
 
+    WITH CustomerCountByYear AS 
+    (
+    SELECT 
+    EXTRACT(YEAR FROM OrderDate) AS OrderYear,
+    COUNT(DISTINCT CustomerID) 
+    AS UniqueCustomers
     FROM 
-        Orders
+    Orders
     GROUP BY 
-        OrderYear
-)
-
-SELECT 
-
+    OrderYear
+    )
+    SELECT 
     OrderYear,
     UniqueCustomers
-FROM 
-
+    FROM 
     CustomerCountByYear;
 
 
 ### Market Analysis
 
-WITH RegionSales AS
-
-(
+    WITH RegionSales AS
+    (
     SELECT
-
-        c.Region, 
-        SUM(o.UnitPrice * o.Quantity) AS TotalSales,
-        RANK() OVER (ORDER BY SUM(o.UnitPrice * o.Quantity) DESC) 
-        AS SalesRank
-
+    c.Region, 
+    SUM(o.UnitPrice * o.Quantity) AS TotalSales,
+    RANK() OVER (ORDER BY SUM(o.UnitPrice * o.   Quantity) DESC) 
+    AS SalesRank
     FROM 
-        Orders o
-
+    Orders o
     JOIN 
-
-        Customers c ON o.CustomerID = c.CustomerID
-
+    Customers c ON o.CustomerID = c.CustomerID
     GROUP BY 
-    
-        c.Region
-)
-SELECT 
-
+    c.Region)
+    SELECT 
     Region, 
     TotalSales,
     SalesRank
-
-FROM 
-
+    FROM 
     RegionSales;
 
 
 ### Market Effectiveness
 
- CREATE TEMPORARY TABLE IF NOT EXISTS 
-TempCountryOrders AS (
-
+    CREATE TEMPORARY TABLE IF NOT EXISTS 
+    TempCountryOrders AS (
     SELECT 
-
-        c.Country, 
-        COUNT(o.OrderID) AS TotalOrders
-
+    c.Country, 
+    COUNT(o.OrderID) AS TotalOrders
     FROM 
-
-        Orders o
-
+    Orders o
     JOIN
-
-        Customers c ON o.CustomerID = c.CustomerID
+    Customers c ON o.CustomerID = c.CustomerID
     GROUP BY
-
-        c.Country
-);
-
+    c.Country);
     SELECT * FROM TempCountryOrders;
 
 ### Profitability Analysis
-SELECT 
-
+    SELECT 
     ProductID, 
     SUM(UnitPrice * Quantity) AS TotalRevenue
-
-FROM 
-
+    FROM 
     Order_Details
-
-GROUP BY
-
+    GROUP BY
     ProductID
-
-ORDER BY
-
+    ORDER BY
     TotalRevenue DESC
-
     LIMIT 10;
