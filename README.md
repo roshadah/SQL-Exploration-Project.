@@ -193,3 +193,7 @@ Profitability Analysis: What are our most profitable products, customers, and sa
     ORDER BY
     TotalRevenue DESC
     LIMIT 10;
+
+## Feedback
+
+If you have any feedback, Kindly reach out to me at roshadah234@gmail.com
