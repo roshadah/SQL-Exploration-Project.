@@ -3,14 +3,14 @@
 
 ## SQL PROJECT
 
-Data exploration using SQL on the Northwind Datasets.
+Data exploration using SQL on the Northwind Datasets via this https://www.bing.com/ck/a?!&&p=dbd1689770ec8724JmltdHM9MTcxNjg1NDQwMCZpZ3VpZD0yNjM5OWRhNS05YjNkLTZkNzQtMDIxMi04OWU1OWFmNjZjYmUmaW5zaWQ9NTIwNw&ptn=3&ver=2&hsh=3&fclid=26399da5-9b3d-6d74-0212-89e59af66cbe&psq=North+wind+data+sets+link&u=a1aHR0cHM6Ly9kb2NzLnl1Z2FieXRlLmNvbS9wcmV2aWV3L3NhbXBsZS1kYXRhL25vcnRod2luZC8&ntb=1.
 
-Introduction
+**Introduction**
 
 Skills used:  CTEs, Temp Tables, Joins, Windows Functions, Aggregate Functions, Creating Views, Converting Data Types.
 
-Questions to further explore the dataset.
-
+**Questions to further explore the dataset.
+**
 Customer Segmentation: How can we segment customers based on their purchasing behavior, demographics, or geographic location?
 
 Product Performance: Which products are the best-sellers, and are there any seasonal trends or patterns in their sales?
